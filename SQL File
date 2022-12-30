@@ -1,0 +1,41 @@
+This is SQL Script used for exploring the data and preparing it for PowerBi
+
+SELECT * FROM portfolio2.`2018`;
+
+--Renaming the file names
+ALTER TABLE `portfolio2`.`2018` 
+RENAME TO  `portfolio2`.`data2018` ;
+ALTER TABLE `portfolio2`.`2019` 
+RENAME TO  `portfolio2`.`data2019` ;
+ALTER TABLE `portfolio2`.`2020` 
+RENAME TO  `portfolio2`.`data2020` ;
+
+-- Creating a new table named 'Hotelsdata' using three different tables for 3 years of data
+Create Table Hotelsdata
+Select * from data2018
+Union
+Select * from data2019
+union
+Select * from data2020;
+Select * from Hotelsdata;
+
+--Using Join to join two more tables to see all the data in one table which will be used in PowerBi directly
+Select * from Hotelsdata H
+Left Join marketsegment ms
+on
+H.market_segment=ms.market_segment
+Left Join meal m
+on H.meal=m.meal;
+
+-- The order of room type getting reserved
+Select reserved_room_type as 'Room Type', arrival_date_year as Year, count(reserved_room_type) as 'No of Reservations' from hotelsdata
+group by reserved_room_type, arrival_date_year
+order by count(reserved_room_type) desc;
+
+Select * from hotelsdata;
+
+-- Which week has the highest Average Daily Rate
+Select arrival_date_week_number, round(avg(adr),2) from hotelsdata
+group by arrival_date_week_number
+order by arrival_date_week_number desc;
+
