@@ -79,3 +79,11 @@ Select adr, ADRLevel(adr) from hotelsdata;
 Select ADRLevel(adr) as ADRLevel, Count(ADRLevel(adr)) as TotalNumber
 from hotelsdata
 group by ADRLevel(adr);
+
+-- What is the maxmum days of waiting list for reservation
+Select max(days_in_waiting_list) as MaximumWaitingTime from hotelsdata;
+
+-- Which day has the maximum number of reservations
+Select reservation_status_date, sum(TotalNightsperweek) from hotelsdata
+group by reservation_status_date
+order by sum(TotalNightsperweek) desc;
