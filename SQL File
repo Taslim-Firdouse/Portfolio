@@ -53,3 +53,29 @@ Select arrival_date_month, Sum(Revenueperweek)
 from hotelsdata
 group by arrival_date_month
 order by Sum(Revenueperweek) desc;
+
+--Creating Function to add a column to differentiate the ADR in three levels
+  
+  CREATE DEFINER=`root`@`localhost` FUNCTION `ADRLevel`(item numeric(8,2)) RETURNS char(30) CHARSET utf8mb4
+    DETERMINISTIC
+BEGIN
+	declare myitem char(30);
+	if item < 50 then
+		set myitem = 'Below Average';
+	elseif (item > 50 and item <= 100) then
+		set myitem = 'Average ADR';
+    else
+		set myitem = 'Above average';
+	end if;
+    return(myitem);
+
+END
+
+-- Calling funtion
+
+Select adr, ADRLevel(adr) from hotelsdata;
+
+-- Using function to find the number of reservations under each ADR level
+Select ADRLevel(adr) as ADRLevel, Count(ADRLevel(adr)) as TotalNumber
+from hotelsdata
+group by ADRLevel(adr);
