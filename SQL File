@@ -60,9 +60,9 @@ order by Sum(Revenueperweek) desc;
     DETERMINISTIC
 BEGIN
 	declare myitem char(30);
-	if item < 50 then
+	if item < 100 then
 		set myitem = 'Below Average';
-	elseif (item > 50 and item <= 100) then
+	elseif (item > 100 and item <= 150) then
 		set myitem = 'Average ADR';
     else
 		set myitem = 'Above average';
