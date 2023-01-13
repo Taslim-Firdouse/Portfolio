@@ -1,0 +1,7 @@
+Working on KPMG Virtual Internship 
+There are three files shared, I used nested Join to combine three files on the primary key customer_id
+
+-- Nested Join
+Select * from transactions tr
+Join (customerdemo cd, customeraddress ca)
+on (tr.customer_id= cd.customer_id AND tr.customer_id= ca.customer_id);
